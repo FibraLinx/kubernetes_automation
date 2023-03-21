@@ -10,7 +10,7 @@ Local ubuntu machine with installed:
 
 1. Clone this git repo to your local system
 
-2. Create key-pair (named vagrant_key)
+2. Create key-pair (named vagrant_key) and copy it to ~/.ssh/
 - `ssh-keygen -b 4096`
 
 3. CD to the git folder and start vagrant VMs
