@@ -1,0 +1,15 @@
+- name: Check if kubernetes installation exists
+  stat:
+    path: "/etc/kubernetes/pki"
+  register: result
+
+- name: Copy the join command to server location
+  ansible.builtin.copy:
+    src: join-command
+    dest: /tmp/join-command.sh
+    mode: 0777
+  when: not result.stat.exists
+
+- name: Join the node to cluster
+  command: sh /tmp/join-command.sh
+  when: not result.stat.exists

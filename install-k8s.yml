@@ -1,0 +1,25 @@
+- name: Install Kubernetes
+  hosts: all
+  become: yes
+  roles:
+    - prerequisites
+    - containerd
+    - kube-packages
+
+- name: Init Cluster
+  hosts: masters
+  become: yes
+  roles:
+    - master-init
+
+- name: Join Workers
+  hosts: workers
+  become: yes
+  roles:
+    - worker-init
+
+- name: Vagrant extra config
+  hosts: workers
+  become: yes
+  roles:
+    - vagrant-config

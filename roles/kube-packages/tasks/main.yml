@@ -1,0 +1,41 @@
+- name: Create public signing key directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Download the Google Cloud public signing key
+  ansible.builtin.get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+
+- name: Create kubernetes repo file
+  ansible.builtin.file:
+    path: "/etc/apt/sources.list.d/kubernetes.list"
+    state: touch
+
+- name: Add k8s apt repo
+  ansible.builtin.blockinfile:
+    path: "/etc/apt/sources.list.d/kubernetes.list"
+    block: |
+      deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+
+- name: Install kube-packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    allow_downgrade: yes
+  with_items:
+    - kubelet=1.26.0-00
+    - kubeadm=1.26.0-00
+    - kubectl=1.26.0-00
+
+- name: Pin kube-packages version
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl

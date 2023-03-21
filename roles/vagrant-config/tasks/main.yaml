@@ -1,0 +1,22 @@
+- name: Add route
+  ansible.builtin.template:
+    src: interface.j2
+    dest: /etc/netplan/50-vagrant.yaml
+
+- name: Apply route
+  ansible.builtin.command: netplan apply
+
+- name: Adjust node ip
+  ansible.builtin.blockinfile:
+    path: "/etc/systemd/system/kubelet.service.d/10-kubeadm.conf"
+    block: |
+      Environment="KUBELET_EXTRA_ARGS=--node-ip={{ hostvars[inventory_hostname].ansible_host }}"
+
+- name: Daemon reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Restart kubelet
+  ansible.builtin.service:
+    name: kubelet
+    state: restarted

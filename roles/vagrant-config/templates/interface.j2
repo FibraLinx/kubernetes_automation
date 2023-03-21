@@ -1,0 +1,11 @@
+---
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s8:
+      addresses:
+      - {{ hostvars[inventory_hostname].ansible_host }}/24
+      routes:
+        - to: 10.96.0.1
+          via: {{ hostvars[inventory_hostname].ansible_host }}
