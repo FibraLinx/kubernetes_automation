@@ -8,13 +8,12 @@ Local ubuntu machine with installed:
 
 ## Setup on local host
 
-1. Create a project directory
-- `mkdir -p ~/vagrant/kubernetes`
+1. Clone this git repo to your local system
 
 2. Create key-pair (named vagrant_key)
 - `ssh-keygen -b 4096`
 
-3. Run VMs
+3. CD to the git folder and start vagrant VMs
 - `vagrant up`
 
 4. Run ansible playbook
