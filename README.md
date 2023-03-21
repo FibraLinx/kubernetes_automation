@@ -1,4 +1,4 @@
-# Procedure to automatically deploy a kubernetes cluster using vagrant and ansible
+# Procedure to automatically deploy a kubernetes cluster (1 control-plane, 2 workers) using vagrant and ansible
 
 ## Prerequisites
 Local ubuntu machine with installed:
